@@ -16,6 +16,10 @@ public class CarMovement : MonoBehaviour
     [SerializeField] private GameObject _frontCamera;
     [SerializeField] private GameObject _mainCamera;
 
+    private float _delayBeforeRespawn = 3.0f;
+    private float _timeOfLastPressing = 0.0f;
+    private bool _isPressing = false;
+
     
     void Update()
     {
@@ -24,7 +28,7 @@ public class CarMovement : MonoBehaviour
 
       
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             _wheelColliders[i].motorTorque = _verticalInput * _power;
         }
@@ -37,7 +41,7 @@ public class CarMovement : MonoBehaviour
             _wheelColliders[t].steerAngle = steerAngle;
         }
 
-        for (int f = 0; f < 3; f++)
+        for (int f = 0; f < 4; f++)
         {
             UpdateWheelRotation(_wheelColliders[f], _wheelColliders[f].transform);
         }
@@ -54,6 +58,25 @@ public class CarMovement : MonoBehaviour
             _frontCamera.SetActive(false);
             _mainCamera.SetActive(true);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _timeOfLastPressing = Time.time;
+            _isPressing = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            _isPressing = false;
+        }
+
+        if (_isPressing && Time.time > _timeOfLastPressing + _delayBeforeRespawn)
+        {
+            //gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+            _isPressing = false;
+        }
+
 
     }
 
