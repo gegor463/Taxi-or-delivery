@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class CarMovement : MonoBehaviour
@@ -19,8 +20,13 @@ public class CarMovement : MonoBehaviour
     private float _delayBeforeRespawn = 3.0f;
     private float _timeOfLastPressing = 0.0f;
     private bool _isPressing = false;
+    private bool _isPressingCondition = false;
 
-    
+
+    private bool _isTouchWithDynamicMesh = false;
+
+    private GameObject _dynamicMesh;
+
     void Update()
     {
         _verticalInput = Input.GetAxis("Vertical");
@@ -72,9 +78,15 @@ public class CarMovement : MonoBehaviour
 
         if (_isPressing && Time.time > _timeOfLastPressing + _delayBeforeRespawn)
         {
+            _isPressingCondition = true;
             //gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
             _isPressing = false;
+
+            if (_isTouchWithDynamicMesh)
+            {
+                StartCoroutine(DelayBeforeDestroy());
+            }
         }
 
 
@@ -90,5 +102,38 @@ public class CarMovement : MonoBehaviour
         transform.position = position;
         transform.rotation = rotation;
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("DynamicMesh") && _isPressingCondition)
+        {
+            _dynamicMesh = collision.gameObject;
+            _isTouchWithDynamicMesh = true;
+        }   
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("DynamicMesh") && !_isPressingCondition)
+        {
+            _isTouchWithDynamicMesh = false;
+        }
+    }
+
+    private IEnumerator DelayBeforeDestroy()
+    {
+        Vector3 startScale = _dynamicMesh.transform.localScale;
+        float timer = 0.0f;
+        float delay = 2.0f;
+
+        while (timer < delay)
+        {
+            timer += Time.deltaTime;
+            float progress = timer / delay;
+            _dynamicMesh.transform.localScale = Vector3.Lerp(startScale, Vector3.zero, progress);
+        }
+        //Destroy(_dynamicMesh);
+        yield return null;
     }
 }
