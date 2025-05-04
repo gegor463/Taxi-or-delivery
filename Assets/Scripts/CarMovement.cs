@@ -111,14 +111,35 @@ public class CarMovement : MonoBehaviour
             _dynamicMesh = collision.gameObject;
             _isTouchWithDynamicMesh = true;
         }   
-    }
 
+        
+    }
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("DynamicMesh") && !_isPressingCondition)
         {
             _isTouchWithDynamicMesh = false;
         }
+    }
+
+
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("PropsTraffic"))
+        {
+            collider.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+        }
+
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("PropsTraffic"))
+        {
+            collider.gameObject.GetComponent<BoxCollider>().isTrigger = true;
+        }
+
     }
 
     private IEnumerator DelayBeforeDestroy()
