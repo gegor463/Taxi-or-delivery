@@ -6,7 +6,7 @@ public class DeliveryPoint : MonoBehaviour
 {
     void Start()
     {
-        
+        MovementToRandomPosition();
     }
 
     void Update()

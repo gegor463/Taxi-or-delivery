@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class LightSaber : MonoBehaviour
 {
+    private GameObject _point;
     void Start()
     {
-        
+        _point = GameObject.FindGameObjectWithTag("Point");
     }
     void Update()
     {
-        transform.Rotate(0, -0.5f, 0);
+        if (gameObject.transform.position.x != _point.transform.position.x || gameObject.transform.position.z != _point.transform.position.z)
+        {
+            gameObject.transform.position = new Vector3(_point.transform.position.x,gameObject.transform.position.y, _point.transform.position.z);
+        }  
     }
+
+
 }
