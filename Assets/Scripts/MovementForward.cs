@@ -54,6 +54,8 @@ public class MovementForward : MonoBehaviour
             
             Vector3 euler = other.transform.rotation.eulerAngles;
             _targetRotation = Quaternion.Euler(0, euler.y, 0);
+
+            transform.position = new Vector3(other.transform.position.x,transform.position.y, other.transform.position.z);
         }
 
         else if (other.CompareTag("Deleter"))
