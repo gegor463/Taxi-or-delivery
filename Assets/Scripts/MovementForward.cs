@@ -1,56 +1,84 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovementForward : MonoBehaviour
 {
     [SerializeField] private float _speed = 10.0f;
-    private CrossroadController _crossroadController;
+    [SerializeField] private float _rotationSpeed = 5.0f;
     private bool _isTouchedWithCrossroad = false;
-    private GameObject _wayPoint;
+    private Transform _targetWaypoint;
+    private Rigidbody _rb;
+    private Quaternion _targetRotation;
+
     void Start()
     {
-        _crossroadController = GameObject.FindGameObjectWithTag("Crossroad").GetComponent<CrossroadController>();     
+        _rb = GetComponent<Rigidbody>();
+        _targetRotation = transform.rotation;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (_isTouchedWithCrossroad == false)
+        GameObject traffic = GameObject.FindGameObjectWithTag("Traffic");
+
+        if (!_isTouchedWithCrossroad /* && Vector3.Distance(transform.position, traffic.transform.position) > 20.0f*/)
         {
-            transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+            _rb.MovePosition(transform.position + transform.forward * _speed * Time.fixedDeltaTime);
+            _rb.MoveRotation(_targetRotation);
         }
-        else
-        {
-            Vector3.MoveTowards(transform.position, _wayPoint.transform.position, _speed);
-        } 
+        else if (_targetWaypoint != null)
+        { 
+            Vector3 direction = (_targetWaypoint.position - transform.position).normalized;
+            _rb.MovePosition(transform.position + direction * _speed * Time.fixedDeltaTime);
+
+            Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
+            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, lookRotation, _rotationSpeed * Time.fixedDeltaTime));
+        }
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnTriggerEnter(Collider other)
     {
-        GameObject touchedGameObject = collision.gameObject;
-        if (touchedGameObject.CompareTag("Crossroad"))
+        if (other.CompareTag("Crossroad") && !_isTouchedWithCrossroad)
         {
-            _wayPoint = touchedGameObject.transform.Find($"WayPoint ({Random.Range(1,3)})").gameObject;
-            Debug.Log(_wayPoint.transform.rotation);
-            _isTouchedWithCrossroad = true;
+            Transform crossroad = other.transform;
+            if (crossroad.childCount > 0)
+            {
+                int randomIndex = Random.Range(0, crossroad.childCount);
+                _targetWaypoint = crossroad.GetChild(randomIndex);
+                _isTouchedWithCrossroad = true;
+            }
+        }
+        else if (other.CompareTag("WayPoint") && _isTouchedWithCrossroad)
+        {
+            
+            _isTouchedWithCrossroad = false;
+            _targetWaypoint = null;
+            
+            Vector3 euler = other.transform.rotation.eulerAngles;
+            _targetRotation = Quaternion.Euler(0, euler.y, 0);
         }
 
-        else if (touchedGameObject.CompareTag("WayPoint"))
+        else if (other.CompareTag("Deleter"))
         {
-            //Debug.Log(touchedGameObject.transform.rotation.y);
-            transform.rotation = Quaternion.Euler(transform.rotation.x,transform.rotation.y + touchedGameObject.transform.rotation.y, transform.rotation.z);
+            Destroy(gameObject);
         }
-       
-        
-
+        // else if (other.CompareTag("WaypointDouble") && !other.CompareTag("Crossroad"))
+        // {
+        //     _targetRotation = other.gameObject.transform.rotation;
+        //     //_rb.MovePosition(transform.position + transform.forward * _speed * Time.fixedDeltaTime);
+        //     //_rb.MoveRotation(_targetRotation);
+        // }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Crossroad"))
+        if (other.CompareTag("WayPoint") && _isTouchedWithCrossroad)
         {
+            
             _isTouchedWithCrossroad = false;
-        }
+            _targetWaypoint = null;
+            
+            Vector3 euler = other.transform.rotation.eulerAngles;
+            _targetRotation = Quaternion.Euler(0, euler.y, 0);
+        }    
     }
 }
 
