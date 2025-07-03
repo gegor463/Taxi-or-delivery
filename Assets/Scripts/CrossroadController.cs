@@ -4,30 +4,35 @@ using UnityEngine;
 
 public class CrossroadController : MonoBehaviour
 {
-    private Vector3 _wayPointPosition;
+    [SerializeField] private List<GameObject> _wayPoints;
 
     private void Start()
     {
-        Debug.Log(transform.childCount);
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Traffic"))
+        for(int i = 0; i < transform.childCount; i++)
         {
-            _wayPointPosition = GameObject.Find($"WayPoint ({FindRandomWayPoint(transform.childCount + 1)})").transform.position;
-        }     
+            _wayPoints[i] = gameObject.transform.GetChild(i).gameObject;
+        }
+
     }
 
-    private int FindRandomWayPoint(int maxWayPointsQuantity)
+    private Transform GetRandomWayPoint()
     {
-        return Random.Range(1, maxWayPointsQuantity);
+        if (_wayPoints.Count <= 0)
+            return null;
+        else
+            return _wayPoints[Random.Range(0,_wayPoints.Count)].transform;
     }
 
-    public Vector3 WayPointPosition
+    private void OnDrawGizmos()
     {
-        get
+        Gizmos.color = Color.yellow;
+        foreach (var wayPoint in _wayPoints)
         {
-            return _wayPointPosition;
+            if (wayPoint != null)
+            {
+                Gizmos.DrawSphere(wayPoint.transform.position, 0.5f);
+                Gizmos.DrawRay(wayPoint.transform.position, wayPoint.transform.forward * 3);
+            }
         }
     }
 }
