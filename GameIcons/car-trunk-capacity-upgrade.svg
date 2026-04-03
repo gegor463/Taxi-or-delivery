@@ -1,0 +1,51 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="50" cy="92" rx="40" ry="4" fill="rgba(0, 0, 0, 0.2)" />
+  <path d="M 25 35 L 20 55 L 20 75 Q 20 80 25 80 L 75 80 Q 80 80 80 75 L 80 55 L 75 35 Z" fill="url(#carGradient)" stroke="#1E40AF" stroke-width="2" />
+  <path d="M 30 35 L 28 45 L 72 45 L 70 35 Z" fill="url(#windowGradient)" stroke="#1E293B" stroke-width="1.5" />
+  <path d="M 32 37 L 30 43 L 45 43 L 44 37 Z" fill="rgba(255, 255, 255, 0.3)" />
+  <rect x="23" y="48" width="54" height="27" rx="2" fill="url(#trunkDoorGradient)" stroke="#1E40AF" stroke-width="1.5" />
+  <rect x="42" y="58" width="16" height="4" rx="2" fill="#64748B" stroke="#475569" stroke-width="0.5" />
+  <rect x="37" y="64" width="26" height="8" rx="1" fill="#F8FAFC" stroke="#64748B" stroke-width="1" />
+  <rect x="23" y="68" width="8" height="10" rx="1" fill="#EF4444" stroke="#991B1B" stroke-width="1" />
+  <rect x="69" y="68" width="8" height="10" rx="1" fill="#EF4444" stroke="#991B1B" stroke-width="1" />
+  <rect x="24" y="69" width="3" height="4" rx="0.5" fill="rgba(255, 255, 255, 0.4)" />
+  <rect x="70" y="69" width="3" height="4" rx="0.5" fill="rgba(255, 255, 255, 0.4)" />
+  <rect x="18" y="78" width="64" height="4" rx="1" fill="#475569" stroke="#1E293B" stroke-width="1" />
+  <circle cx="28" cy="82" r="6" fill="#1E293B" />
+  <circle cx="28" cy="82" r="4" fill="#64748B" />
+  <circle cx="72" cy="82" r="6" fill="#1E293B" />
+  <circle cx="72" cy="82" r="4" fill="#64748B" />
+  <circle cx="50" cy="20" r="18" fill="url(#upgradeGradient)" stroke="#2563EB" stroke-width="2" />
+  <circle cx="50" cy="20" r="14" fill="url(#upgradeInnerGradient)" />
+  <path d="M 50 10 L 56 18 L 53 18 L 53 26 L 47 26 L 47 18 L 44 18 Z" fill="#FFFFFF" stroke="#E0E7FF" stroke-width="0.5" />
+  <rect x="62" y="14" width="2" height="8" rx="1" fill="#22C55E" />
+  <rect x="59" y="17" width="8" height="2" rx="1" fill="#22C55E" />
+  <circle cx="33" cy="15" r="1.5" fill="#FCD34D" opacity="0.9" />
+  <circle cx="67" cy="12" r="1.2" fill="#FCD34D" opacity="0.9" />
+  <circle cx="40" cy="8" r="1" fill="#FFFFFF" opacity="0.7" />
+  <rect x="45" y="52" width="5" height="4" rx="0.5" fill="#94A3B8" opacity="0.5" />
+  <rect x="51" y="52" width="5" height="4" rx="0.5" fill="#94A3B8" opacity="0.5" />
+  <defs>
+    <linearGradient id="carGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="50%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1E40AF" />
+    </linearGradient>
+    <linearGradient id="windowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+    <linearGradient id="trunkDoorGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <radialGradient id="upgradeGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </radialGradient>
+    <radialGradient id="upgradeInnerGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </radialGradient>
+  </defs>
+</svg>

@@ -1,0 +1,24 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="52" r="45" fill="rgba(0, 0, 0, 0.2)" />
+  <circle cx="50" cy="50" r="45" fill="url(#coinGradient)" />
+  <circle cx="50" cy="50" r="45" fill="none" stroke="#B8860B" stroke-width="2" />
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#FFD700" stroke-width="1.5" />
+  <circle cx="50" cy="50" r="35" fill="url(#innerGradient)" />
+  <path d="M50 20 L52 32 L64 34 L54 42 L57 54 L50 47 L43 54 L46 42 L36 34 L48 32 Z" fill="#FFED4E" opacity="0.9" />
+  <text x="50" y="58" font-size="32" font-weight="bold" fill="#DAA520" text-anchor="middle" font-family="Arial, sans-serif">$</text>
+  <path d="M 30 25 Q 35 30, 40 28 Q 45 26, 50 30 Q 55 35, 58 32" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2" stroke-linecap="round" />
+  <circle cx="35" cy="35" r="5" fill="rgba(255, 255, 255, 0.3)" />
+  <circle cx="65" cy="65" r="3" fill="rgba(255, 255, 255, 0.2)" />
+  <defs>
+    <radialGradient id="coinGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700" />
+      <stop offset="50%" stop-color="#FFC700" />
+      <stop offset="100%" stop-color="#DAA520" />
+    </radialGradient>
+    <radialGradient id="innerGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFED4E" />
+      <stop offset="70%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#DAA520" />
+    </radialGradient>
+  </defs>
+</svg>
