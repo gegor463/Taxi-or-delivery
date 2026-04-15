@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using TMPro;
 
 public class CarMovement : MonoBehaviour
 {
@@ -37,8 +38,10 @@ public class CarMovement : MonoBehaviour
 
     private float _timer = 60.0f;
     private float _lastTimeDelivery = 0.0f;
+    private float _leftTime = 60.0f;
 
     private Canvas _canvasRenderer;
+    private TextMeshProUGUI _timerText;
     private async Task Start()
     {
         _money = PlayerPrefs.GetInt("Money", 0);
@@ -49,11 +52,25 @@ public class CarMovement : MonoBehaviour
         //_frontCamera = GameObject.FindGameObjectWithTag("FrontCamera");
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         //await Task.Delay(100);
+        _timerText = FindFirstObjectByType<TextMeshProUGUI>();
         _backgroundForMenuButtons = GameObject.FindGameObjectWithTag("BackgroundForMenuButtons");
         _backgroundForMenuButtons.SetActive(false);
+        _leftTime = _timer;
     }
     void Update()
     {
+        _leftTime -= Time.deltaTime;
+        if (_leftTime < 0.0f)
+        {
+            _timerText.text = "Timer: ";
+        }
+        else
+        {
+            int leftTime = Mathf.FloorToInt(_leftTime);
+            _timerText.text = "Timer: " + leftTime.ToString();
+        }
+        
+        _timerText.text = _leftTime.ToString();
         _verticalInput = Input.GetAxis("Vertical");
         _horizontalInput = Input.GetAxis("Horizontal");
         try
@@ -240,11 +257,6 @@ public class CarMovement : MonoBehaviour
         get
         {
             return _timer;
-        }
-
-        set
-        {
-            _timer = value;
         }
     }
 

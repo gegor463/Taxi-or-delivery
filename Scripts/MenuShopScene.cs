@@ -43,6 +43,7 @@ public class MenuShopScene : MonoBehaviour
     private CarsModel _carsModel;
     private string _nameOfCar;
     private int _selectIndexCar;
+    private string _nameOfCar1;
 
     void Start()
     {
@@ -134,8 +135,7 @@ public class MenuShopScene : MonoBehaviour
 
     private void LeftButton()
     {
-
-        GameObject spawnedCar = GameObject.FindGameObjectWithTag("Car");
+        GameObject spawnedCar = GameObject.Find(_currentCar.name + "(Clone)");
         Destroy(spawnedCar);
         if (_carIndex -  1 >= 0)
         {
@@ -152,7 +152,7 @@ public class MenuShopScene : MonoBehaviour
 
     private void RightButton()
     {
-        GameObject spawnedCar = GameObject.FindGameObjectWithTag("Car");
+        GameObject spawnedCar = GameObject.Find(_currentCar.name + "(Clone)");
         Destroy(spawnedCar);
         
         if (_carIndex + 1 < _cars.Count)
@@ -193,6 +193,7 @@ public class MenuShopScene : MonoBehaviour
         _currentCar = _cars[_carIndex];
         Instantiate(_currentCar, _spawnManager.position, _spawnManager.rotation, _spawnManager);
         string nameOfCar = _currentCar.name;
+        _nameOfCar1 = nameOfCar;
         nameOfCar = nameOfCar.Replace("(Clone)", "");
         _nameOfCar = nameOfCar;
         int isPurchasedCar = _dbConnection.GetDataFromCars("IsPurchasedCar", nameOfCar);
