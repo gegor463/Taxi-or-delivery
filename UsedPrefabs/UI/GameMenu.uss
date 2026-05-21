@@ -1,0 +1,20 @@
+.game-menu-button {
+	border-radius: 20px;
+}
+
+#new_game_button:hover {
+	background-color: #2685bf;
+}
+
+#home_button:hover {
+	background-color: #000000;
+	color: #ffffff;
+}
+
+#continue_button:hover {
+	background-color: #fae502;
+}
+
+#exit_button:hover {
+	background-color: #fa0202;
+}

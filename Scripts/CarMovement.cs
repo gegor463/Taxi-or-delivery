@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class CarMovement : MonoBehaviour
 {
@@ -36,59 +37,72 @@ public class CarMovement : MonoBehaviour
 
     private GameObject _backgroundForMenuButtons;
 
+    private GameObject _gameMenu;
+
     private float _timer = 60.0f;
     private float _lastTimeDelivery = 0.0f;
     private float _leftTime = 60.0f;
+    private bool _bonusTime = true;
 
     private Canvas _canvasRenderer;
     private TextMeshProUGUI _timerText;
-    private async Task Start()
+    private void Start()
     {
         _money = PlayerPrefs.GetInt("Money", 0);
         _maxCount = PlayerPrefs.GetInt("MaxCount", 4);
-
+        _gameMenu = GameObject.FindGameObjectWithTag("GameMenu");
 
 
         //_frontCamera = GameObject.FindGameObjectWithTag("FrontCamera");
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         //await Task.Delay(100);
-        _timerText = FindFirstObjectByType<TextMeshProUGUI>();
+        _timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TextMeshProUGUI>();
         _backgroundForMenuButtons = GameObject.FindGameObjectWithTag("BackgroundForMenuButtons");
-        _backgroundForMenuButtons.SetActive(false);
+        //_backgroundForMenuButtons.SetActive(false);
         _leftTime = _timer;
     }
     void Update()
     {
-        _leftTime -= Time.deltaTime;
         if (_leftTime < 0.0f)
         {
-            _timerText.text = "Timer: ";
-        }
-        else
-        {
+            _leftTime = 1;
             int leftTime = Mathf.FloorToInt(_leftTime);
-            _timerText.text = "Timer: " + leftTime.ToString();
+            _timerText.text = "Lateness: " + leftTime;
+            _timerText.color = UnityEngine.Color.red;
+            _bonusTime = false;
         }
-        
-        _timerText.text = _leftTime.ToString();
-        _verticalInput = Input.GetAxis("Vertical");
+        else if( _leftTime >= 0.0f && _bonusTime) 
+        {
+            _leftTime -= Time.deltaTime;
+            int leftTime = Mathf.FloorToInt(_leftTime);
+            _timerText.text = "Timer: " + leftTime + "Sec";
+        }
+        else if(_leftTime >= 0.0f && !_bonusTime)
+        {
+            _leftTime += Time.deltaTime;
+            int leftTime = Mathf.FloorToInt(_leftTime);
+            _timerText.text = "Lateness: " + leftTime + "Sec";
+        }
+
+            //_timerText.text = _leftTime.ToString();
+            _verticalInput = Input.GetAxis("Vertical");
         _horizontalInput = Input.GetAxis("Horizontal");
         try
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                if (!_backgroundForMenuButtons.activeInHierarchy)
+                if (!_gameMenu.activeInHierarchy)
                 {
 
-                    Cursor.lockState = CursorLockMode.Confined;
+                    UnityEngine.Cursor.lockState = CursorLockMode.Confined;
                     Time.timeScale = 0.0f;
-                    _backgroundForMenuButtons.SetActive(true);
+                    _gameMenu.SetActive(true);
                 }
                 else
                 {
                     Time.timeScale = 1.0f;
-                    Cursor.lockState = CursorLockMode.Locked;
-                    _backgroundForMenuButtons.SetActive(false);
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                    _gameMenu.SetActive(false);
                 }
 
             }
@@ -270,6 +284,22 @@ public class CarMovement : MonoBehaviour
         set
         {
             _lastTimeDelivery = value;
+        }
+    }
+
+    public bool BonusTime
+    {
+        get
+        {
+            return _bonusTime;
+        }
+    }
+
+    public float LeftTime
+    {
+        get
+        {
+            return _leftTime;
         }
     }
 }
